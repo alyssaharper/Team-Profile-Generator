@@ -52,8 +52,7 @@ test('does this return the manager office number', () => {
     expect(getOfficeNum.getOfficeNumber()).toBe(holdOfficeNum);
 })
 
-// test('does this return the name', () => {
-//     const roleName = "Employee";
-//     // const getName = new Employee(roleName);
-//     expect(getRole()).toBe(roleName);
-// })
+test('does this return the name', () => {
+    const getRole = new Manager('John', 3, "my@gmail.com");
+    expect(getRole.getRole()).toBe("Manager");
+})

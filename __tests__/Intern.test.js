@@ -51,3 +51,8 @@ test('does this return the intern school', () => {
     const getSchool = new Intern('John', 3, "my@gmail.com", holdSchool);
     expect(getSchool.getSchool()).toBe(holdSchool);
 })
+
+test('does this return the name', () => {
+    const getRole = new Intern('John', 3, "my@gmail.com");
+    expect(getRole.getRole()).toBe("Intern");
+})
