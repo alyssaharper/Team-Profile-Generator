@@ -1,4 +1,20 @@
-<!DOCTYPE html>
+function generateMangCard(newManager) {
+    return `
+    <div class="card" style="width: 18rem;">
+  <div class="card-header">
+    ${newManager.name}
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">ID: ${newManager.id}</li>
+    <li class="list-group-item">Email: ${newManager.email}</li>
+    <li class="list-group-item">Office Number: ${newManager.officeNumber}</li>
+  </ul>
+</div>`
+};
+
+function generateHTML(data) {
+    return `
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,3 +39,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </html>
+    `
+}
+
+module.exports = generateHTML;
