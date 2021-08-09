@@ -4,6 +4,9 @@ const Engineer = require('./lib/engineer');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateHTML = require('./src/generateHTML');
+const { off } = require('process');
+
+const teamArr = [];
 
 const managerQuestions = () => {
     return inquirer.prompt([
@@ -29,17 +32,18 @@ const managerQuestions = () => {
         },
         
     ])
-    .then((data) => {
-        const newManager = new Manager(data.name, data.id, data.email, data.officeNumber);
-        console.log(data);
+    .then(mangAnswers => {
+        const {name, id, email, officeNumber} = mangAnswers;
+        const newManager = new Manager(name, id, email, officeNumber);
+        teamArr.push(newManager);
     });
 }
 
-const employeeQustions = () => {
+const employeeQuestions = () => {
     return inquirer.prompt([
         {
             type: 'list',
-            name: 'employeeTitle',
+            name: 'role',
             message: 'Please select the role of the employee you are adding:',
             choices: ['Engineer', 'Intern']
         },
@@ -60,41 +64,59 @@ const employeeQustions = () => {
         },
         {
             type: 'input',
-            name: 'email',
+            name: 'github',
             message: `What is the employee's github username?`,
-            when: (ans) => ans.role === "Engineer",
+            when: (answer) => answer.role === 'Engineer'
         },
         {
             type: 'input',
-            name: 'email',
+            name: 'school',
             message: `What school does this the employee's attend?`,
-            hen: (ans) => ans.role === "Intern",
+            when: (answer) => answer.role === 'Intern'
         },
+        {
+            type: 'list',
+            name: 'finish',
+            message: 'Please select from the following options:',
+            choices: ['Add another employee', 'Generate file']
+        }
     ])
-        .then((data) => {
-        const newEngineer = new Engineer(data.name, data.id, data.email, data.github);
-        const newIntern = new Intern(data.name, data.id, data.email, data.school);
-        console.log(data);
+        .then(empAnswers => {
+            let {role, name, id, email, github, school, finish} = empAnswers;
+            let newMember;
+
+            if(role === "Engineer") {
+                newMember = new Engineer (name, id, email, github)
+            } else {
+                newMember = new Intern (name, id, email, school)
+            }
+        
+
+        teamArr.push(newMember);
+
+        if (finish === "Add another employee") {
+            return employeeQuestions(teamArr);
+        } else {
+            return teamArr;
+        }
     });
 }
 
-function writeToFile(fileName, data) {
-    fs.writeFile("./dist/"+fileName, data, (err) => {
+function writeToFile(data) {
+    fs.writeFile("./dist/index.html", data, (err) => {
         err ? console.log(err): console.log("Successfully generated HTML")
     } )
 }
 
 function init() {
-    managerQuestions();
-    .then(employeeQustions);
-
-    
-//     .then((data) => {
-//     const newManager = new Manager(name, id, email, officeNumber);
-//     const newIntern = new Intern(name, id, email, school);
-//     const newEngineer = new Engineer(name, id, email, github);
-//     writeToFile("index.html", generateHTML(data));
-// })
+    managerQuestions()
+    .then(employeeQuestions)
+    .then(teamArr => {
+        return generateHTML(teamArr);
+    })
+    .then(cardHTML => {
+        return writeToFile(cardHTML);
+    })
 };
 
 init();

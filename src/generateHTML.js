@@ -1,18 +1,73 @@
 function generateMangCard(newManager) {
     return `
     <div class="card" style="width: 18rem;">
-  <div class="card-header">
-    ${newManager.name}
-  </div>
+  <div class="card-header">${newManager.name}</div>
+  <div class="card-subheader">Manager</div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${newManager.id}</li>
-    <li class="list-group-item">Email: ${newManager.email}</li>
+    <li class="list-group-item">Email: <a href="mailto:${newManager.email}">${newManager.email}</li>
     <li class="list-group-item">Office Number: ${newManager.officeNumber}</li>
   </ul>
 </div>`
 };
 
-function generateHTML(data) {
+function generateEngCard(newEngineer) {
+  return `
+  <div class="card" style="width: 18rem;">
+<div class="card-header">${newEngineer.name}</div>
+<div class="card-subheader">Engineer</div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">ID: ${newEngineer.id}</li>
+  <li class="list-group-item">Email: <a href="mailto:${newEngineer.email}">${newEngineer.email}</li>
+  <li class="list-group-item">Github: <a href="https://github.com/${newEngineer.github}">${newEngineer.github}</li>
+</ul>
+</div>`
+};
+
+function generateInternCard(newIntern) {
+  return `
+  <div class="card" style="width: 18rem;">
+<div class="card-header">${newIntern.name}</div>
+<div class="card-subheader">Intern</div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">ID: ${newIntern.id}</li>
+  <li class="list-group-item">Email: <a href="mailto:${newIntern.email}">${newIntern.email}</li>
+  <li class="list-group-item">School: ${newIntern.school}</li>
+</ul>
+</div>`
+};
+
+function createTeamCards(data) {
+  teamCards = [];
+
+  for(let i =0; i < data.length; i++) {
+    const teamMember = data[i];
+    const role = teamMember.getRole();
+
+    if (role === 'Manager') {
+      const createManagerCard = generateMangCard(teamMember);
+      teamCards.push(createManagerCard);
+    }
+
+    if (role === 'Engineer') {
+      const createEngineerCard = generateEngCard(teamMember);
+      teamCards.push(createEngineerCard);
+    }
+
+    if (role === 'Intern') {
+      const createInternCard = generateInternCard(teamMember);
+      teamCards.push(createInternCard);
+    }
+
+  };
+
+  const finalCards = teamCards.join('')
+  const finalTeam = generateHTML(finalCards);
+  return finalTeam;
+  
+}
+
+function generateHTML(finalCards) {
     return `
     <!DOCTYPE html>
 <html lang="en">
@@ -30,9 +85,7 @@ function generateHTML(data) {
         </div>
       </nav>
 
-      <div id="manager"></div>
-      <div id="engineer"></div>
-      <div id="intern"></div>
+      <div class="container">${finalCards}</div>
    
   <script src="index.js"></script> 
 </body>
