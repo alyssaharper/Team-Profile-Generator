@@ -5,10 +5,10 @@ function generateMangCard(newManager) {
   <div class="card-subheader">Manager</div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${newManager.id}</li>
-    <li class="list-group-item">Email: <a href="mailto:${newManager.email}">${newManager.email}</li>
+    <li class="list-group-item">Email: <a href="mailto:${newManager.email}">${newManager.email}</a></li>
     <li class="list-group-item">Office Number: ${newManager.officeNumber}</li>
   </ul>
-</div>`
+</div>`;
 };
 
 function generateEngCard(newEngineer) {
@@ -18,10 +18,10 @@ function generateEngCard(newEngineer) {
 <div class="card-subheader">Engineer</div>
 <ul class="list-group list-group-flush">
   <li class="list-group-item">ID: ${newEngineer.id}</li>
-  <li class="list-group-item">Email: <a href="mailto:${newEngineer.email}">${newEngineer.email}</li>
-  <li class="list-group-item">Github: <a href="https://github.com/${newEngineer.github}">${newEngineer.github}</li>
+  <li class="list-group-item">Email: <a href="mailto:${newEngineer.email}">${newEngineer.email}</a></li>
+  <li class="list-group-item">Github: <a href="https://github.com/${newEngineer.github}">${newEngineer.github}</a></li>
 </ul>
-</div>`
+</div>`;
 };
 
 function generateInternCard(newIntern) {
@@ -31,15 +31,14 @@ function generateInternCard(newIntern) {
 <div class="card-subheader">Intern</div>
 <ul class="list-group list-group-flush">
   <li class="list-group-item">ID: ${newIntern.id}</li>
-  <li class="list-group-item">Email: <a href="mailto:${newIntern.email}">${newIntern.email}</li>
+  <li class="list-group-item">Email: <a href="mailto:${newIntern.email}">${newIntern.email}</a></li>
   <li class="list-group-item">School: ${newIntern.school}</li>
 </ul>
-</div>`
+</div>`;
 };
 
-function createTeamCards(data) {
+const createTeamCards = (data) => {
   teamCards = [];
-
   for(let i =0; i < data.length; i++) {
     const teamMember = data[i];
     const role = teamMember.getRole();
@@ -62,12 +61,11 @@ function createTeamCards(data) {
   };
 
   const finalCards = teamCards.join('')
-  const finalTeam = generateHTML(finalCards);
+  const finalTeam = createHTML(finalCards);
   return finalTeam;
-  
 }
 
-function generateHTML(finalCards) {
+function createHTML(finalCards) {
     return `
     <!DOCTYPE html>
 <html lang="en">
@@ -95,4 +93,4 @@ function generateHTML(finalCards) {
     `
 }
 
-module.exports = generateHTML;
+module.exports = createTeamCards;

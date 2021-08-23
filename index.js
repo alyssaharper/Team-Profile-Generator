@@ -4,7 +4,6 @@ const Engineer = require('./lib/engineer');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateHTML = require('./src/generateHTML');
-const { off } = require('process');
 
 const teamArr = [];
 
@@ -105,7 +104,7 @@ const employeeQuestions = () => {
 function writeToFile(data) {
     fs.writeFile("./dist/index.html", data, (err) => {
         err ? console.log(err): console.log("Successfully generated HTML")
-    } )
+    });
 }
 
 function init() {
